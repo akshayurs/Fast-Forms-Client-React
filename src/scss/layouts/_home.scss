@@ -1,0 +1,24 @@
+.home-screen {
+  // background: #539e8a;
+  height: 100vh;
+  .logo {
+    display: block;
+    margin: 0 auto;
+    width: 20rem;
+    padding-top: 15rem;
+  }
+  .buttons {
+    margin: 0 auto;
+    padding: 5rem;
+    width: fit-content;
+    // color: #f6c5be;
+  }
+  .signin,
+  .signup {
+    border: 1px solid;
+    border-radius: 0.5rem;
+    margin: 5rem 0;
+    padding: 1rem;
+    text-align: center;
+  }
+}

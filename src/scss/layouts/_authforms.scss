@@ -1,0 +1,58 @@
+@import '../abstracts/helpers';
+.auth-screen {
+  form {
+    padding-top: 8rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title {
+      font-size: 2.5rem;
+      padding-bottom: 3rem;
+    }
+    .field {
+      @extend %flex-center;
+      border-bottom: 1px solid;
+      margin: 1rem 0;
+      // width: 28rem;
+      &.red {
+        color: red;
+        input {
+          color: red;
+        }
+      }
+      &.green {
+        color: green;
+      }
+      input {
+        font-size: 1.7rem;
+        padding: 1rem;
+        outline: none;
+        border: none;
+        flex: 1;
+        display: block;
+      }
+    }
+    .switch {
+      padding-top: 1rem;
+      font-size: 1.6rem;
+      a {
+        color: rgb(66, 0, 128);
+      }
+    }
+    button {
+      outline: none;
+      border: none;
+      margin-top: 3.5rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.5rem;
+      background: #303742;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.203);
+      color: white;
+      &:disabled {
+        background: #747473;
+        box-shadow: none;
+      }
+    }
+  }
+}

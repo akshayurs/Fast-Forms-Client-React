@@ -1,0 +1,35 @@
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Krona+One&display=swap');
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+textarea,
+html,
+input {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Helvetica,
+    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+body {
+  // overscroll-behavior: none;
+  font-size: 2rem;
+  overflow-x: hidden;
+}
+a {
+  color: unset;
+  text-decoration: unset;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
