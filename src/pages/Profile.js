@@ -33,9 +33,6 @@ function Profile() {
       setLoading({ text: '', state: false })
       if (data.status === 200) {
         setFlashMsg({ color: 'green', content: data.message })
-        setTimeout(() => {
-          navigate('/')
-        }, 1000)
       }
     } else {
       setFlashMsg({ color: 'red', content: 'Details not changed' })
@@ -43,9 +40,11 @@ function Profile() {
   }
   useEffect(() => {
     ;(async () => {
+      setLoading({ text: 'Loading Profile', state: true })
       const { data, error } = await fetchData(
         process.env.REACT_APP_SERVER_URL + '/mydetails'
       )
+      setLoading({ text: '', state: false })
       if (error) return
       if (data.status === 200) {
         originalData.current = data.user

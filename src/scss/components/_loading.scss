@@ -1,0 +1,7 @@
+.loading-popup {
+  & > div {
+    & > div {
+      backdrop-filter: blur(5px);
+    }
+  }
+}

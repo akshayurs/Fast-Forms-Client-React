@@ -1,15 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
+import Flash from '../components/Flash'
 function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
   const [fieldType, setFieldType] = useState('text')
   const [options, setOptions] = useState([])
   const [ans, setAns] = useState('')
+  const [id, setId] = useState(0)
   const [optionTemp, setOptionTemp] = useState('')
+  const [flashMsg, setFlash] = useState({ content: '', color: '' })
+  useEffect(() => {
+    if (
+      fieldType === 'text' ||
+      fieldType === 'textarea' ||
+      fieldType === 'number' ||
+      fieldType === 'date' ||
+      fieldType === 'datetime-local'
+    ) {
+      setOptions([])
+      setOptionTemp('')
+    }
+  }, [fieldType])
   return (
     <div className="new">
+      <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
       <div className="field">
         <div className="title main">Add New Question</div>
       </div>
@@ -18,7 +34,6 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
           type="text"
           value={title}
           placeholder="Title"
-          required
           onChange={(e) => {
             setTitle(e.target.value)
           }}
@@ -50,25 +65,33 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
           <option value="datetime-local">Date and Time</option>
         </select>
       </div>
-      <div className="field">
-        <input
-          type="text"
-          placeholder="Add option"
-          value={optionTemp}
-          onChange={(e) => setOptionTemp(e.target.value)}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            const set = new Set(options)
-            set.add(optionTemp.trim())
-            setOptions((prev) => Array.from(set))
-            setOptionTemp('')
-          }}
-        >
-          <GrAdd />
-        </button>
-      </div>
+      {!(
+        fieldType === 'text' ||
+        fieldType === 'textarea' ||
+        fieldType === 'number' ||
+        fieldType === 'date' ||
+        fieldType === 'datetime-local'
+      ) && (
+        <div className="field">
+          <input
+            type="text"
+            placeholder="Add option"
+            value={optionTemp}
+            onChange={(e) => setOptionTemp(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const set = new Set(options)
+              set.add(optionTemp.trim())
+              setOptions((prev) => Array.from(set))
+              setOptionTemp('')
+            }}
+          >
+            <GrAdd />
+          </button>
+        </div>
+      )}
       {options.length > 0 && (
         <div className="list">
           {options.map((option, index) => {
@@ -99,14 +122,43 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
         </div>
       )}
       <button
+        type="button"
         className="add-new"
         onClick={() => {
+          if (
+            !(
+              fieldType === 'text' ||
+              fieldType === 'textarea' ||
+              fieldType === 'number' ||
+              fieldType === 'date' ||
+              fieldType === 'datetime-local'
+            ) &&
+            options.length <= 0
+          ) {
+            setFlash({ content: '', color: '' })
+            setFlash({ content: 'Add options', color: 'red' })
+            return
+          }
+          if (title === '') {
+            setFlash({ content: '', color: '' })
+            setFlash({ content: 'Add Title', color: 'red' })
+            return
+          }
           const newQuestion = {
+            id,
             title,
             des,
             options,
+            fieldType,
             ans,
           }
+          setId((prev) => prev + 1)
+          setTitle('')
+          setDes('')
+          setFieldType('text')
+          setOptions([])
+          setOptionTemp('')
+          setAns('')
           setQuestions((prev) => [...prev, newQuestion])
         }}
       >

@@ -14,21 +14,23 @@ import { fetchData } from './helpers/Fetch'
 import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
 import CreatePoll from './pages/CreatePoll'
+import AnswerPoll from './pages/AnswerPoll'
 function App() {
   const { pathname } = useLocation()
   let headerColor = ''
-  switch (pathname) {
-    case '/signin':
-    case '/signup':
-    case '/profile':
-    case '/verify':
-    case '/about':
-    case '/dashboard':
-    case '/changepass':
-    case '/verify/:token':
+
+  switch (pathname.split('/')[1]) {
+    case 'signin':
+    case 'signup':
+    case 'profile':
+    case 'verify':
+    case 'about':
+    case 'dashboard':
+    case 'changepass':
       headerColor = 'black'
       break
-    case '/createpoll':
+    case 'createpoll':
+    case 'answer':
       headerColor = 'violet'
       break
     default:
@@ -86,6 +88,7 @@ function App() {
           exact
           element={<Dashboard loggedin={loggedin} />}
         />
+        <Route path="/answer/:id" exact element={<AnswerPoll />} />
         <Route path="/changepass" exact element={<ChangePassword />} />
         <Route path="/verify/:token" element={<Verify toVerify={true} />} />
       </Routes>

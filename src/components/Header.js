@@ -13,7 +13,14 @@ function Header({ loggedin, setLoggedin, headerColor }) {
     config: { friction: 15 },
     height: open ? `${menuEle.current.scrollHeight + 5}px` : '0px',
   })
-
+  useEffect(() => {
+    const theme = document.querySelector('meta[name="theme-color"]')
+    if (headerColor === 'black') {
+      theme.content = '#222831'
+    } else if (headerColor === 'violet') {
+      theme.content = '#32325d'
+    }
+  }, [headerColor])
   return (
     <div className={'header ' + headerColor}>
       <Loading text={loading.text} loading={loading.state} />
@@ -48,23 +55,33 @@ function Header({ loggedin, setLoggedin, headerColor }) {
           About
         </div>
         {loggedin ? (
-          <div
-            onClick={async () => {
-              toggle(false)
-              setloading({ text: 'Signout', state: true })
-              const { data } = await fetchData(
-                process.env.REACT_APP_SERVER_URL + '/signout'
-              )
-              setloading({ text: '', state: false })
-              if (data.status === 200) {
-                setLoggedin(false)
-                localStorage.setItem('loggedin', 'false')
-                navigator('/')
-              }
-            }}
-          >
-            Sign Out
-          </div>
+          <>
+            <div
+              onClick={() => {
+                toggle(false)
+                navigator('/profile')
+              }}
+            >
+              View Profile
+            </div>
+            <div
+              onClick={async () => {
+                toggle(false)
+                setloading({ text: 'Signout', state: true })
+                const { data } = await fetchData(
+                  process.env.REACT_APP_SERVER_URL + '/signout'
+                )
+                setloading({ text: '', state: false })
+                if (data.status === 200) {
+                  setLoggedin(false)
+                  localStorage.setItem('loggedin', 'false')
+                  navigator('/')
+                }
+              }}
+            >
+              Sign Out
+            </div>
+          </>
         ) : (
           <>
             <div

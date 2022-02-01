@@ -4,8 +4,11 @@
 
 @import './components/header';
 @import './components/flash';
+@import './components/loading';
 
-@import './layouts/home';
+@import './layouts/answerpoll';
 @import './layouts/authforms';
-@import './layouts/verify';
 @import './layouts/createpoll';
+@import './layouts/dashboard';
+@import './layouts/home';
+@import './layouts/verify';

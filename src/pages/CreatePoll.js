@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
 import CreatedQuestion from '../components/CreatedQuestion'
 import CreateQuestion from '../components/CreateQuestion'
+import { fetchData } from '../helpers/Fetch'
 function CreatePoll() {
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
@@ -12,6 +13,7 @@ function CreatePoll() {
   const [askFeedback, setAskFeedback] = useState(false)
   const [queEditable, setQueEditable] = useState(false)
   const [ansEditable, setAnsEditable] = useState(false)
+  const [publicPoll, setPublicPoll] = useState(false)
   const [showStats, setShowStats] = useState(true)
   const [startTime, setStartTime] = useState(
     new Date().toISOString().slice(0, 16)
@@ -28,8 +30,18 @@ function CreatePoll() {
   function removeItem(array, item) {
     return array.filter((ele) => ele !== item)
   }
+  useEffect(() => {
+    if (publicPoll) {
+      setAuthReq(false)
+    }
+  }, [publicPoll])
+  useEffect(()=>{
+    if(!authReq){
+      setEmails([])
+      setSendEmails(false)
+    }
+  },[authReq])
   async function handleSubmit(e) {
-    console.log(e)
     e.preventDefault()
     const poll = {
       title,
@@ -37,6 +49,7 @@ function CreatePoll() {
       authReq,
       sendEmails,
       emails,
+      publicPoll,
       askFeedback,
       queEditable,
       ansEditable,
@@ -47,9 +60,13 @@ function CreatePoll() {
       reqFieldsToAns,
       questions,
     }
-    console.log(poll)
+    const { data } = await fetchData(
+      process.env.REACT_APP_SERVER_URL + '/poll',
+      'POST',
+      poll
+    )
+    console.log({ data })
   }
-  console.log({ reqFieldsToAns, questions })
   return (
     <div className="createpoll-screen">
       <form onSubmit={handleSubmit}>
@@ -78,70 +95,81 @@ function CreatePoll() {
         </div>
         <div className="container">
           <div className="field">
-            <div className="title">Require authentication to answer</div>
+            <div className="title">Public Poll</div>
             <input
               type="checkbox"
-              checked={authReq}
-              onChange={(e) => setAuthReq((prev) => !prev)}
+              checked={publicPoll}
+              onChange={(e) => setPublicPoll((prev) => !prev)}
             />
           </div>
-          {authReq && (
+          {!publicPoll && (
             <>
-              {' '}
               <div className="field">
-                <div className="title">Send Email about poll</div>
+                <div className="title">Require authentication to answer</div>
                 <input
                   type="checkbox"
-                  checked={sendEmails}
-                  onChange={(e) => setSendEmails((prev) => !prev)}
+                  checked={authReq}
+                  onChange={(e) => setAuthReq((prev) => !prev)}
                 />
               </div>
-              <div className="field">
-                <input
-                  type="text"
-                  value={emailTemp}
-                  onChange={(e) => setEmailTemp(e.target.value)}
-                  placeholder="Add Email (comma or space separated for multiple)"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const oldSet = new Set(emails)
-                    const newSet = new Set(
-                      emailTemp
-                        .replaceAll(',', ' ')
-                        .split(' ')
-                        .filter((email) => email.trim().length > 0)
-                    )
-                    const emailList = [...new Set([...oldSet, ...newSet])]
-                    setEmails((prev) => emailList)
-                    setEmailTemp('')
-                  }}
-                >
-                  <GrAdd />
-                </button>
-              </div>
-              <div className="emails">
-                {emails.length > 0 && (
-                  <div className="list">
-                    {emails.map((email, index) => {
-                      return (
-                        <div key={index}>
-                          <p>{email}</p>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setEmails(removeItem(emails, email))
-                            }}
-                          >
-                            <MdOutlineDelete />
-                          </button>
-                        </div>
-                      )
-                    })}
+              {authReq && (
+                <>
+                  <div className="field">
+                    <div className="title">Send Email about poll</div>
+                    <input
+                      type="checkbox"
+                      checked={sendEmails}
+                      onChange={(e) => setSendEmails((prev) => !prev)}
+                    />
                   </div>
-                )}
-              </div>
+                  <div className="field">
+                    <input
+                      type="text"
+                      value={emailTemp}
+                      onChange={(e) => setEmailTemp(e.target.value)}
+                      placeholder="Add Email (comma or space separated for multiple)"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const oldSet = new Set(emails)
+                        const newSet = new Set(
+                          emailTemp
+                            .replaceAll(',', ' ')
+                            .split(' ')
+                            .filter((email) => email.trim().length > 0)
+                        )
+                        const emailList = [...new Set([...oldSet, ...newSet])]
+                        setEmails((prev) => emailList)
+                        setEmailTemp('')
+                      }}
+                    >
+                      <GrAdd />
+                    </button>
+                  </div>
+                  <div className="emails">
+                    {emails.length > 0 && (
+                      <div className="list">
+                        {emails.map((email, index) => {
+                          return (
+                            <div key={index}>
+                              <p>{email}</p>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEmails(removeItem(emails, email))
+                                }}
+                              >
+                                <MdOutlineDelete />
+                              </button>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>
