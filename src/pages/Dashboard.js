@@ -4,26 +4,34 @@ import PublicPolls from '../components/PublicPolls'
 import { fetchData } from '../helpers/Fetch'
 
 function Dashboard({ loggedin }) {
-  const [view, setView] = useState('prev')
+  const [view, setView] = useState('prevCreated')
 
   return (
     <div className="dashboard-screen">
       <div className="top">
         <p
-          className={view === 'prev' && 'selected'}
-          onClick={() => setView('prev')}
+          className={view === 'prevCreated' && 'selected'}
+          onClick={() => setView('prevCreated')}
         >
-          Previous Polls
+          Created
+        </p>
+        <p
+          className={view === 'prevAns' && 'selected'}
+          onClick={() => setView('prevAns')}
+        >
+          Answered
         </p>
         <p
           className={view === 'public' && 'selected'}
           onClick={() => setView('public')}
         >
-          Public Polls
+          Public
         </p>
       </div>
       <div className="container">
-        {view === 'prev' ? <PrevPolls /> : <PublicPolls />}
+        {view === 'prevCreated' && <PrevPolls />}
+        {view === 'prevAns' && <PrevPolls />}
+        {view === 'public' && <PublicPolls />}
       </div>
     </div>
   )

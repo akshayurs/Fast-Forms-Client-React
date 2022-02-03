@@ -1,3 +1,29 @@
+.answer-start {
+  text-align: center;
+  .title {
+    margin-top: 3rem;
+    padding: 1rem;
+    font-size: 2.7rem;
+    font-weight: 500;
+  }
+  .createdby {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    div {
+      text-align: left;
+    }
+    p {
+      padding-right: 0.2rem;
+    }
+    .username {
+      font-size: 1.7rem;
+    }
+  }
+  .time {
+    margin-top: 4rem;
+  }
+}
 .answer-poll {
   max-width: 100vw;
   .questions {

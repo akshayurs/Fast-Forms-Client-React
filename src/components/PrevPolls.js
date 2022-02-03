@@ -25,11 +25,11 @@ function PrevPolls() {
     <div className="user-polls">
       <Loading text={loading.text} loading={loading.state}></Loading>
       <Link to="/createpoll">Create New Poll</Link>
-      {userPolls.map((poll) => (
-        <>
+      {userPolls.map((poll, index) => (
+        <div key={index}>
           <div className="poll">{poll.title}</div>
           <div className="des">{poll.des}</div>
-        </>
+        </div>
       ))}
     </div>
   )

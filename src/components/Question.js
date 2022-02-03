@@ -1,40 +1,116 @@
-function Question({ question, index, total, isInfo }) {
-  let ansEle = <></>
-  switch (question.fieldType) {
-    case 'text':
-    case 'number':
-    case 'date':
-    case 'datetime-local':
-      ansEle = <input type={question.fieldType}></input>
-      break
-    case 'textarea':
-      ansEle = <textarea />
-      break
-    case 'dropdown':
-      ansEle = (
-        <select>
-          {question.options.map((option) => (
-            <option value={option}>{option}</option>
-          ))}
-        </select>
-      )
-      break
-    case 'radio':
-    case 'checkbox':
-      ansEle = question.options.map((option, no) => (
-        <div className="radiobuttons">
-          <label htmlFor={`q-${index}-${no}`}>{option}</label>
+import { useState, useEffect } from 'react'
+function Question({
+  question,
+  index,
+  total,
+  isInfo,
+  questionsEle,
+  end,
+  start,
+  setAnswersToInfo,
+  setAnswersToQue,
+  handleSubmit,
+}) {
+  const [textVal, setTextVal] = useState('')
+  const [checkboxVal, setCheckboxVal] = useState({})
+  const [ansEle, setAnsEle] = useState(<></>)
+
+  function handleChange(val) {
+    let change
+    if (isInfo) change = setAnswersToInfo
+    else change = setAnswersToQue
+
+    change((prev) => {
+      return { ...prev, [question.id]: val }
+    })
+  }
+
+  useEffect(() => {
+    handleChange(textVal)
+  }, [textVal])
+  useEffect(() => {
+    handleChange(checkboxVal)
+  }, [checkboxVal])
+
+  useEffect(() => {
+    switch (question.fieldType) {
+      case 'text':
+      case 'number':
+      case 'date':
+      case 'datetime-local':
+        setAnsEle(
           <input
             type={question.fieldType}
-            name={`q-${index}`}
-            id={`q-${index}-${no}`}
+            onChange={(e) => {
+              setTextVal(e.target.value)
+            }}
+            value={textVal}
+          ></input>
+        )
+        break
+      case 'textarea':
+        setAnsEle(
+          <textarea
+            onChange={(e) => {
+              setTextVal(e.target.value)
+            }}
+            value={textVal}
           />
-        </div>
-      ))
-      break
-    default:
-      break
-  }
+        )
+        break
+      case 'dropdown':
+        setAnsEle(
+          <select
+            onChange={(e) =>
+              setTextVal(() => {
+                return e.target.value
+              })
+            }
+            value={textVal}
+          >
+            {question.options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        )
+        break
+      case 'radio':
+      case 'checkbox':
+        setAnsEle(
+          question.options.map((option, no) => {
+            if (checkboxVal[option] === undefined)
+              setCheckboxVal((prev) => {
+                return { ...prev, [option]: false }
+              })
+            return (
+              <div key={no} className="checkboxbuttons">
+                <label htmlFor={`q-${index}-${no}-${isInfo ? 'info' : ''}`}>
+                  {option}
+                </label>
+                <input
+                  type={question.fieldType}
+                  name={`q-${index}`}
+                  id={`q-${index}-${no}-${isInfo ? 'info' : ''}`}
+                  checked={checkboxVal[option] ?? false}
+                  onChange={(e) => {
+                    console.log(checkboxVal, option)
+                    setCheckboxVal((prev) => {
+                      console.log({ ...prev, [option]: !prev[option] })
+                      return { ...prev, [option]: !prev[option] }
+                    })
+                  }}
+                />
+              </div>
+            )
+          })
+        )
+        break
+      default:
+        break
+    }
+  }, [checkboxVal, textVal, question])
   return (
     <div className="question">
       <div className="top">
@@ -49,15 +125,32 @@ function Question({ question, index, total, isInfo }) {
       <div className="answer">{ansEle}</div>
       <div className="bottom">
         <div className="buttons">
-          <p className="back">Back</p>
-          <p
-            className="next"
-            onClick={() => {
-              // questionsEle.current
-            }}
-          >
-            Next
-          </p>
+          {!start || index !== 0 ? (
+            <p
+              className="back"
+              onClick={() => {
+                questionsEle.current.scrollBy(-window.innerWidth, 0)
+              }}
+            >
+              Back
+            </p>
+          ) : (
+            ''
+          )}
+          {end && index === total - 1 ? (
+            <p className="submit" onClick={() => handleSubmit()}>
+              Submit
+            </p>
+          ) : (
+            <p
+              className="next"
+              onClick={() =>
+                questionsEle.current.scrollBy(window.innerWidth, 0)
+              }
+            >
+              Next
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ function CreatedQuestion({ questions, setQuestions }) {
     } else if (field === 'checkbox' || field === 'radio') {
       ansField = question.options.map((item, index) => {
         return (
-          <div>
+          <div key={index}>
             <label htmlFor={`q-${question.id}-o-${index}`} className="text">
               {item}
             </label>
@@ -34,8 +34,8 @@ function CreatedQuestion({ questions, setQuestions }) {
     } else if (field === 'dropdown') {
       ansField = (
         <select>
-          {question.options.map((item) => (
-            <option value={item}>{item}</option>
+          {question.options.map((item,index) => (
+            <option key={index} value={item}>{item}</option>
           ))}
         </select>
       )
