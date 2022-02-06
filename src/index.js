@@ -82,7 +82,8 @@ function App() {
         <Route path="/verify" exact element={<Verify />} />
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/about" exact element={<About />} />
-        <Route path="/createpoll" exact element={<CreatePoll />} />
+        <Route path="/poll" exact element={<CreatePoll />} />
+        <Route path="/poll/:id" exact element={<CreatePoll view={true} />} />
         <Route
           path="/dashboard"
           exact

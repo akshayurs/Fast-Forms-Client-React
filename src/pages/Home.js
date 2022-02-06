@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 function Home({ loggedin }) {
-  console.log(loggedin)
   return (
     <div className="home-screen">
       <img src="/images/logo-placeholder.png" alt="logo" className="logo" />

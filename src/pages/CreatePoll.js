@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
+import { useParams } from 'react-router-dom'
 import CreatedQuestion from '../components/CreatedQuestion'
 import CreateQuestion from '../components/CreateQuestion'
 import { fetchData } from '../helpers/Fetch'
-function CreatePoll() {
+function CreatePoll({ view }) {
+  const { id } = useParams()
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
   const [authReq, setAuthReq] = useState(false)
@@ -20,7 +22,7 @@ function CreatePoll() {
   )
   const [endTime, setEndTime] = useState('')
   const [viewAns, setViewAns] = useState(false)
-  const [reqFieldsToAns, setQeqFieldsToAns] = useState([])
+  const [reqFieldsToAns, setReqFieldsToAns] = useState([])
   const [questions, setQuestions] = useState([])
 
   const [emailTemp, setEmailTemp] = useState('')
@@ -35,12 +37,36 @@ function CreatePoll() {
       setAuthReq(false)
     }
   }, [publicPoll])
-  useEffect(()=>{
-    if(!authReq){
+  useEffect(() => {
+    if (!authReq) {
       setEmails([])
       setSendEmails(false)
     }
-  },[authReq])
+  }, [authReq])
+  useEffect(() => {
+    if (view)
+      (async function () {
+        const { data } = await fetchData(
+          `${process.env.REACT_APP_SERVER_URL}\\poll\\${id}`
+        )
+        console.log(data)
+        setTitle(data.poll.title)
+        setDes(data.poll.des || '')
+        setAuthReq(data.poll.authReq)
+        setSendEmails(data.poll.sendEmails)
+        setEmails(data.poll.emails)
+        setAskFeedback(data.poll.askFeedback)
+        setQueEditable(data.poll.queEditable)
+        setAnsEditable(data.poll.ansEditable)
+        setPublicPoll(data.poll.publicPoll)
+        setShowStats(data.poll.showStats)
+        setStartTime(new Date(data.poll.startTime).toISOString().slice(0, 16))
+        setEndTime(new Date(data.poll.endTime).toISOString().slice(0, 16))
+        setViewAns(data.poll.viewAns)
+        setReqFieldsToAns(data.poll.reqFieldsToAns)
+        setQuestions(data.poll.questions)
+      })()
+  }, [])
   async function handleSubmit(e) {
     e.preventDefault()
     const poll = {
@@ -65,7 +91,6 @@ function CreatePoll() {
       'POST',
       poll
     )
-    console.log({ data })
   }
   return (
     <div className="createpoll-screen">
@@ -241,12 +266,12 @@ function CreatePoll() {
             <CreatedQuestion
               removeItem={removeItem}
               questions={reqFieldsToAns}
-              setQuestions={setQeqFieldsToAns}
+              setQuestions={setReqFieldsToAns}
             />
           </div>
           <CreateQuestion
             removeItem={removeItem}
-            setQuestions={setQeqFieldsToAns}
+            setQuestions={setReqFieldsToAns}
           />
         </div>
         <div className="container">

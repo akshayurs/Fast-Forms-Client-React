@@ -10,26 +10,35 @@ function Question({
   setAnswersToInfo,
   setAnswersToQue,
   handleSubmit,
+  answer,
+  disableField,
 }) {
-  const [textVal, setTextVal] = useState('')
-  const [checkboxVal, setCheckboxVal] = useState({})
+  const [textVal, setTextVal] = useState(
+    typeof answer === 'string' ? answer : ''
+  )
+  const [checkboxVal, setCheckboxVal] = useState(
+    typeof answer === 'object' ? answer : {}
+  )
   const [ansEle, setAnsEle] = useState(<></>)
 
   function handleChange(val) {
     let change
     if (isInfo) change = setAnswersToInfo
     else change = setAnswersToQue
-
     change((prev) => {
       return { ...prev, [question.id]: val }
     })
   }
 
   useEffect(() => {
-    handleChange(textVal)
+    if (question.fieldType !== 'radio' && question.fieldType !== 'checkbox') {
+      handleChange(textVal)
+    }
   }, [textVal])
   useEffect(() => {
-    handleChange(checkboxVal)
+    if (question.fieldType === 'radio' || question.fieldType === 'checkbox') {
+      handleChange(checkboxVal)
+    }
   }, [checkboxVal])
 
   useEffect(() => {
@@ -45,6 +54,7 @@ function Question({
               setTextVal(e.target.value)
             }}
             value={textVal}
+            disabled={disableField}
           ></input>
         )
         break
@@ -55,10 +65,14 @@ function Question({
               setTextVal(e.target.value)
             }}
             value={textVal}
+            disabled={disableField}
           />
         )
         break
       case 'dropdown':
+        if (textVal === '') {
+          setTextVal(question.options[0])
+        }
         setAnsEle(
           <select
             onChange={(e) =>
@@ -66,6 +80,7 @@ function Question({
                 return e.target.value
               })
             }
+            disabled={disableField}
             value={textVal}
           >
             {question.options.map((option, index) => (
@@ -94,11 +109,15 @@ function Question({
                   name={`q-${index}`}
                   id={`q-${index}-${no}-${isInfo ? 'info' : ''}`}
                   checked={checkboxVal[option] ?? false}
+                  disabled={disableField}
                   onChange={(e) => {
-                    console.log(checkboxVal, option)
                     setCheckboxVal((prev) => {
-                      console.log({ ...prev, [option]: !prev[option] })
-                      return { ...prev, [option]: !prev[option] }
+                      const newObj = {}
+                      const oldVal = prev[option]
+                      Object.keys(prev).forEach((item) => {
+                        newObj[item] = false
+                      })
+                      return { ...newObj, [option]: !oldVal }
                     })
                   }}
                 />
@@ -138,7 +157,12 @@ function Question({
             ''
           )}
           {end && index === total - 1 ? (
-            <p className="submit" onClick={() => handleSubmit()}>
+            <p
+              className="submit"
+              onClick={() => {
+                if (!disableField) handleSubmit()
+              }}
+            >
               Submit
             </p>
           ) : (

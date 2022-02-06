@@ -7,6 +7,7 @@ function AnswerStart({
   startTime,
   setStartAnswering,
   notAuth,
+  alreadyAnswered,
 }) {
   let pollNotStarted = false
   let now = new Date()
@@ -36,7 +37,7 @@ function AnswerStart({
       </div>
       {!pollNotStarted && !notAuth && (
         <div className="start" onClick={() => setStartAnswering(true)}>
-          Start
+          {alreadyAnswered ? 'View Your submission' : 'Start'}
         </div>
       )}
     </div>

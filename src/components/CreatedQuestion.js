@@ -34,8 +34,10 @@ function CreatedQuestion({ questions, setQuestions }) {
     } else if (field === 'dropdown') {
       ansField = (
         <select>
-          {question.options.map((item,index) => (
-            <option key={index} value={item}>{item}</option>
+          {question.options.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
           ))}
         </select>
       )
@@ -53,7 +55,7 @@ function CreatedQuestion({ questions, setQuestions }) {
               <div key={question.id}>
                 <p>
                   <div className="title">{question.title}</div>
-                  {question.des.length > 0 && (
+                  {question.des?.length > 0 && (
                     <div className="des">{question.des}</div>
                   )}
                   <div className="answer-fields">{ansField}</div>
