@@ -1,0 +1,33 @@
+.poll {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  border-radius: 0.3rem;
+  max-width: 50rem;
+  margin: 0.9rem auto;
+  background: #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.342);
+
+  .title {
+    font-weight: 500;
+    font-size: 2.5rem;
+  }
+  .time {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
+  .buttons {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    & > div {
+      background: rgb(202, 202, 202);
+      border-radius: 0.3rem;
+      padding: 0.7rem 1rem;
+    }
+    .delete {
+      svg {
+        color: rgb(230, 113, 113);
+      }
+    }
+  }
+}

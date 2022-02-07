@@ -1,3 +1,4 @@
+import { toExactTime } from '../helpers/DateConversion'
 function AnswerStart({
   title,
   username,
@@ -32,8 +33,8 @@ function AnswerStart({
         </div>
       </div>
       <div className="time">
-        <p>Start Time : {start.toLocaleString()}</p>
-        <p>End Time : {end.toLocaleString()}</p>
+        <p>Start Time : {toExactTime(startTime)}</p>
+        <p>End Time : {toExactTime(endTime)}</p>
       </div>
       {!pollNotStarted && !notAuth && (
         <div className="start" onClick={() => setStartAnswering(true)}>

@@ -1,7 +1,7 @@
 import { FaRegUser } from 'react-icons/fa'
 import { MdDriveFileRenameOutline } from 'react-icons/md'
 import { HiOutlineMail } from 'react-icons/hi'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import Flash from '../components/Flash'
 import { fetchData } from '../helpers/Fetch'
@@ -160,6 +160,9 @@ function Profile() {
             required
           />
         </div>
+        <Link className="change-pass" to="/changepass">
+          Change Password
+        </Link>
         <button
           type="submit"
           disabled={

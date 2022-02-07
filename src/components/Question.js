@@ -12,6 +12,7 @@ function Question({
   handleSubmit,
   answer,
   disableField,
+  disableBack,
 }) {
   const [textVal, setTextVal] = useState(
     typeof answer === 'string' ? answer : ''
@@ -144,7 +145,7 @@ function Question({
       <div className="answer">{ansEle}</div>
       <div className="bottom">
         <div className="buttons">
-          {!start || index !== 0 ? (
+          {(!start || index !== 0) && !disableBack ? (
             <p
               className="back"
               onClick={() => {

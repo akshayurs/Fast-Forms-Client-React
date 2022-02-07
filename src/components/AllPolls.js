@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { fetchData } from '../helpers/Fetch'
 import Loading from '../helpers/Loading'
 import { GrAddCircle } from 'react-icons/gr'
+import { BsSearch } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import PollItem from './PollItem'
 function AllPolls({ page }) {
@@ -28,28 +29,42 @@ function AllPolls({ page }) {
     setLoading({ state: false, text: '' })
     setPolls(page === 'answered' ? data.answers : data.polls)
   }
+
   useEffect(() => {
     getPolls()
   }, [])
+
   return (
     <div className="polls">
       <Loading text={loading.text} loading={loading.state}></Loading>
       {page === 'created' ? (
-        <Link to="/createpoll" className="create-poll">
+        <Link to="/poll" className="create-poll">
           Create Poll
+        </Link>
+      ) : page === 'public' ? (
+        <Link to="/search" className="search-poll">
+          Search
         </Link>
       ) : (
         ''
       )}
-      {polls.map((poll) => {
+      {polls.map((poll, index) => {
         return (
           <PollItem
             poll={poll}
             created={page === 'created'}
             answer={page === 'answered'}
+            index={index}
           />
         )
       })}
+      {polls.length === 0 && (
+        <div className="empty">
+          {page === 'created' &&
+            'Create your new poll by clicking above button to conduct Survey / Test / Election or any other Data Collection form'}
+          {page === 'answered' && 'You have not answered any poll'}
+        </div>
+      )}
       {pagination.next && (
         <div className="loadmore">
           <GrAddCircle />

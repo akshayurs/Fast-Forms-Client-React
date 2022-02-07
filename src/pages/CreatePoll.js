@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import CreatedQuestion from '../components/CreatedQuestion'
 import CreateQuestion from '../components/CreateQuestion'
+import Flash from '../components/Flash'
+import Loading from '../helpers/Loading'
 import { fetchData } from '../helpers/Fetch'
+import { toCorrectUTC } from '../helpers/DateConversion'
 function CreatePoll({ view }) {
+  const navigator = useNavigate()
   const { id } = useParams()
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
@@ -18,7 +22,7 @@ function CreatePoll({ view }) {
   const [publicPoll, setPublicPoll] = useState(false)
   const [showStats, setShowStats] = useState(true)
   const [startTime, setStartTime] = useState(
-    new Date().toISOString().slice(0, 16)
+    new Date().toLocaleString().slice(0, 16)
   )
   const [endTime, setEndTime] = useState('')
   const [viewAns, setViewAns] = useState(false)
@@ -29,6 +33,7 @@ function CreatePoll({ view }) {
 
   const [flashMsg, setFlash] = useState({ content: '', color: '' })
   const [loading, setLoading] = useState({ text: '', state: false })
+  const originalPoll = useRef({})
   function removeItem(array, item) {
     return array.filter((ele) => ele !== item)
   }
@@ -50,6 +55,7 @@ function CreatePoll({ view }) {
           `${process.env.REACT_APP_SERVER_URL}\\poll\\${id}`
         )
         console.log(data)
+        originalPoll.current = data.poll
         setTitle(data.poll.title)
         setDes(data.poll.des || '')
         setAuthReq(data.poll.authReq)
@@ -60,8 +66,8 @@ function CreatePoll({ view }) {
         setAnsEditable(data.poll.ansEditable)
         setPublicPoll(data.poll.publicPoll)
         setShowStats(data.poll.showStats)
-        setStartTime(new Date(data.poll.startTime).toISOString().slice(0, 16))
-        setEndTime(new Date(data.poll.endTime).toISOString().slice(0, 16))
+        setStartTime(toCorrectUTC(data.poll.startTime))
+        setEndTime(toCorrectUTC(data.poll.endTime))
         setViewAns(data.poll.viewAns)
         setReqFieldsToAns(data.poll.reqFieldsToAns)
         setQuestions(data.poll.questions)
@@ -80,20 +86,61 @@ function CreatePoll({ view }) {
       queEditable,
       ansEditable,
       showStats,
-      startTime,
-      endTime,
+      startTime: new Date(startTime).toJSON(),
+      endTime: new Date(endTime).toJSON(),
       viewAns,
       reqFieldsToAns,
       questions,
     }
+    let addToBody = {}
+    let method
+    if (id) {
+      const modify = {}
+      Object.keys(poll).forEach((key) => {
+        if (poll[key] !== originalPoll.current[key]) {
+          console.log(key)
+          console.log(poll[key])
+          console.log(originalPoll.current[key])
+          modify[key] = poll[key]
+        }
+      })
+      addToBody.modify = modify
+      addToBody.pollId = id
+      method = 'PUT'
+      if (Object.keys(modify).length === 0) {
+        return setFlash({
+          content: 'No Changes Found',
+          color: 'red',
+        })
+      }
+    } else {
+      addToBody = poll
+      method = 'POST'
+    }
+
+    console.log({ ...addToBody })
+
+    setLoading({ text: 'Saving', state: true })
     const { data } = await fetchData(
       process.env.REACT_APP_SERVER_URL + '/poll',
-      'POST',
-      poll
+      method,
+      { ...addToBody }
     )
+    setLoading({ text: '', state: false })
+    setFlash({
+      content: data.message,
+      color: data.status === 200 ? 'green' : 'red',
+    })
+    if (data.status === 200) {
+      setTimeout(() => {
+        navigator('/dashboard')
+      }, 1000)
+    }
   }
   return (
     <div className="createpoll-screen">
+      <Loading loading={loading.state} text={loading.text}></Loading>
+      <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
       <form onSubmit={handleSubmit}>
         <div className="title">Create New Poll</div>
         <div className="container">
@@ -248,7 +295,10 @@ function CreatePoll({ view }) {
             <input
               type="datetime-local"
               value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.value)
+                setStartTime(e.target.value)
+              }}
             />
           </div>
           <div className="field">

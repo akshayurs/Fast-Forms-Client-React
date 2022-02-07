@@ -157,6 +157,7 @@ function AnswerPoll() {
                 handleSubmit={handleSubmit}
                 answer={answersToQue[question.id]}
                 disableField={alreadyAnswered && !ansEditable}
+                disableBack={index === 0 && reqFieldsToAns.length === 0}
               />
             )
           })}

@@ -1,5 +1,6 @@
 .flash {
   position: fixed;
+  z-index: 100;
   top: 2rem;
   left: 50%;
   transform: translateX(-50%);

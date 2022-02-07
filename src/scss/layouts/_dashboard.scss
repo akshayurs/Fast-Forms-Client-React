@@ -12,4 +12,29 @@
       border-bottom: 1px solid;
     }
   }
+  .container {
+    padding: 1rem;
+    height: 100%;
+  }
+  .create-poll,
+  .search-poll {
+    display: block;
+    width: 85vw;
+    border-radius: 0.3rem;
+    max-width: 50rem;
+    text-align: center;
+    margin: 0.5rem auto;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background: #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.342);
+  }
+  .empty {
+    height: 100%;
+    margin-top: 15rem;
+    padding: 1rem;
+    color: #222831;
+    font-family: 'Cutive Mono', monospace;
+    text-align: center;
+  }
 }

@@ -10,6 +10,10 @@
       font-size: 2.5rem;
       padding-bottom: 3rem;
     }
+    .change-pass {
+      margin-top: 1rem;
+      font-size: 1.6rem;
+    }
     .field {
       @extend %flex-center;
       border-bottom: 1px solid;

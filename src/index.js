@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
 import CreatePoll from './pages/CreatePoll'
 import AnswerPoll from './pages/AnswerPoll'
+import Search from './pages/Search'
 function App() {
   const { pathname } = useLocation()
   let headerColor = ''
@@ -27,9 +28,10 @@ function App() {
     case 'about':
     case 'dashboard':
     case 'changepass':
+    case 'search':
       headerColor = 'black'
       break
-    case 'createpoll':
+    case 'poll':
     case 'answer':
       headerColor = 'violet'
       break
@@ -82,6 +84,7 @@ function App() {
         <Route path="/verify" exact element={<Verify />} />
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/about" exact element={<About />} />
+        <Route path="/search" exact element={<Search />} />
         <Route path="/poll" exact element={<CreatePoll />} />
         <Route path="/poll/:id" exact element={<CreatePoll view={true} />} />
         <Route
