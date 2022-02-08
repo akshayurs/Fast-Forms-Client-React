@@ -31,12 +31,12 @@ function PollItem({ poll, created, answer, index }) {
     >
       <Loading loading={loading.state} text={loading.text}></Loading>
       <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
-      <div className="title">{answer ? poll.pollId.title : poll.title}</div>
+      <div className="title">{answer ? poll?.pollId?.title : poll.title}</div>
       <div className="des">{answer ? poll.pollId.des : poll.des}</div>
       {!created && !answer && (
         <div className="createdBy">
-          <div className="name">{poll.createdBy.name}</div>
-          <div className="username">{poll.createdBy.username}</div>
+          <div className="name">{poll.createdBy?.name}</div>
+          <div className="username">{poll.createdBy?.username}</div>
         </div>
       )}
       <div className="time">
@@ -92,7 +92,9 @@ function PollItem({ poll, created, answer, index }) {
               <MdDelete /> Delete
             </div>
             <div className="show">
-              <IoMdStats /> View
+              <Link to={`/stats/${poll._id}`}>
+                <IoMdStats /> View
+              </Link>
             </div>
           </>
         )}

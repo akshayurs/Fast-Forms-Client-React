@@ -115,10 +115,14 @@ function Question({
                     setCheckboxVal((prev) => {
                       const newObj = {}
                       const oldVal = prev[option]
-                      Object.keys(prev).forEach((item) => {
-                        newObj[item] = false
-                      })
-                      return { ...newObj, [option]: !oldVal }
+                      if (question.fieldType === 'radio') {
+                        Object.keys(prev).forEach((item) => {
+                          newObj[item] = false
+                        })
+                        return { ...newObj, [option]: !oldVal }
+                      } else {
+                        return { ...prev, [option]: !prev[option] }
+                      }
                     })
                   }}
                 />

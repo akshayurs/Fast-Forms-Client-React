@@ -131,7 +131,10 @@ function Signin() {
               if (!regEx.test(e.target.value)) return setEmailVal(false)
               setEmailVal(true)
               const { data } = await fetchData(
-                'https://open.kickbox.io/v1/disposable/' + e.target.value
+                'https://open.kickbox.io/v1/disposable/' + e.target.value,
+                null,
+                null,
+                false
               )
               if (data?.disposable) {
                 setEmailVal(false)

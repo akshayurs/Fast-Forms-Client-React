@@ -16,6 +16,7 @@ import Header from './components/Header'
 import CreatePoll from './pages/CreatePoll'
 import AnswerPoll from './pages/AnswerPoll'
 import Search from './pages/Search'
+import Stats from './pages/Stats'
 function App() {
   const { pathname } = useLocation()
   let headerColor = ''
@@ -93,6 +94,7 @@ function App() {
           element={<Dashboard loggedin={loggedin} />}
         />
         <Route path="/answer/:id" exact element={<AnswerPoll />} />
+        <Route path="/stats/:id" exact element={<Stats />} />
         <Route path="/changepass" exact element={<ChangePassword />} />
         <Route path="/verify/:token" element={<Verify toVerify={true} />} />
       </Routes>

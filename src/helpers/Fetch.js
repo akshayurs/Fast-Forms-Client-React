@@ -29,19 +29,23 @@ function useFetch(url, method, body) {
 
   return { isLoading, apiData, serverError }
 }
-const fetchData = async (url, method, body) => {
+const fetchData = async (url, method, body, credential) => {
   try {
     let res
-    if (method)
+    if (method) {
       res = await fetch(url, {
         method,
-        credentials: 'include',
+        credentials: credential === false ? '' : 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       })
-    else res = await fetch(url, { credentials: 'include' })
+    } else {
+      res = await fetch(url, {
+        credentials: credential === false ? '' : 'include',
+      })
+    }
 
     const data = await res.json()
     return { data }
