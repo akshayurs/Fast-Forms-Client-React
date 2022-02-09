@@ -33,7 +33,9 @@ function Stats() {
       <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
       <Loading text={loading.text} loading={loading.state}></Loading>
       {poll?.questions?.map((que) => {
-        return <StatsItem question={que} answers={answers} />
+        return (
+          <StatsItem question={que} answers={answers} field={'queFieldsAns'} />
+        )
       })}
     </div>
   )

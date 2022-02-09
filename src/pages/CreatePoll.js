@@ -54,7 +54,7 @@ function CreatePoll({ view }) {
         const { data } = await fetchData(
           `${process.env.REACT_APP_SERVER_URL}\\poll\\${id}`
         )
-        console.log(data)
+
         originalPoll.current = data.poll
         setTitle(data.poll.title)
         setDes(data.poll.des || '')
@@ -98,9 +98,6 @@ function CreatePoll({ view }) {
       const modify = {}
       Object.keys(poll).forEach((key) => {
         if (poll[key] !== originalPoll.current[key]) {
-          console.log(key)
-          console.log(poll[key])
-          console.log(originalPoll.current[key])
           modify[key] = poll[key]
         }
       })
@@ -117,8 +114,6 @@ function CreatePoll({ view }) {
       addToBody = poll
       method = 'POST'
     }
-
-    console.log({ ...addToBody })
 
     setLoading({ text: 'Saving', state: true })
     const { data } = await fetchData(
@@ -296,7 +291,6 @@ function CreatePoll({ view }) {
               type="datetime-local"
               value={startTime}
               onChange={(e) => {
-                console.log(e.target.value)
                 setStartTime(e.target.value)
               }}
             />

@@ -32,7 +32,7 @@ function PollItem({ poll, created, answer, index }) {
       <Loading loading={loading.state} text={loading.text}></Loading>
       <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
       <div className="title">{answer ? poll?.pollId?.title : poll.title}</div>
-      <div className="des">{answer ? poll.pollId.des : poll.des}</div>
+      <div className="des">{answer ? poll.pollId?.des : poll?.des}</div>
       {!created && !answer && (
         <div className="createdBy">
           <div className="name">{poll.createdBy?.name}</div>
@@ -54,6 +54,31 @@ function PollItem({ poll, created, answer, index }) {
         )}
       </div>
       <div className="buttons">
+        {answer && poll.pollId.ansEditable && (
+          <div
+            className="delete"
+            onClick={async () => {
+              if (window.confirm(`Delete ${poll.title}`)) {
+                setLoading({ text: 'Deleting', state: true })
+                const { data } = await fetchData(
+                  `${process.env.REACT_APP_SERVER_URL}\\answer\\${poll._id}`,
+                  'DELETE'
+                )
+                setLoading({ text: '', state: false })
+                setFlash({
+                  content: data.message,
+                  color: data.status === 200 ? 'green' : 'red',
+                })
+                if (data.status === 200)
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 1000)
+              }
+            }}
+          >
+            <MdDelete /> Delete
+          </div>
+        )}
         {!created && (
           <div className="view">
             <Link to={`/answer/${answer ? poll.pollId._id : poll._id}`}>
@@ -61,6 +86,14 @@ function PollItem({ poll, created, answer, index }) {
             </Link>
           </div>
         )}
+        {answer && poll.pollId.showStats && (
+          <div className="show">
+            <Link to={`/stats/${poll.pollId._id}`}>
+              <IoMdStats /> View
+            </Link>
+          </div>
+        )}
+
         {created && (
           <>
             <div className="edit">

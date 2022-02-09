@@ -27,7 +27,10 @@ function AllPolls({ page }) {
     )
     setPagination({ prev: data.prev, next: data.next })
     setLoading({ state: false, text: '' })
-    setPolls(page === 'answered' ? data.answers : data.polls)
+    const tempPolls = page === 'answered' ? data.answers : data.polls
+    setPolls((prev) => {
+      return [...prev, ...tempPolls]
+    })
   }
 
   useEffect(() => {
@@ -37,17 +40,6 @@ function AllPolls({ page }) {
   return (
     <div className="polls">
       <Loading text={loading.text} loading={loading.state}></Loading>
-      {page === 'created' ? (
-        <Link to="/poll" className="create-poll">
-          Create Poll
-        </Link>
-      ) : page === 'public' ? (
-        <Link to="/search" className="search-poll">
-          Search
-        </Link>
-      ) : (
-        ''
-      )}
       {polls.map((poll, index) => {
         return (
           <PollItem

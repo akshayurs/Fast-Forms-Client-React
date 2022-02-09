@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import AllPolls from '../components/AllPolls'
 
 function Dashboard({ loggedin }) {
@@ -27,6 +28,17 @@ function Dashboard({ loggedin }) {
         </p>
       </div>
       <div className="container">
+        {view === 'prevCreated' ? (
+          <Link to="/poll" className="create-poll">
+            Create Poll
+          </Link>
+        ) : view === 'public' ? (
+          <Link to="/search" className="search-poll">
+            Search
+          </Link>
+        ) : (
+          ''
+        )}
         {view === 'prevCreated' && <AllPolls page={'created'} />}
         {view === 'prevAns' && <AllPolls page={'answered'} />}
         {view === 'public' && <AllPolls page={'public'} />}

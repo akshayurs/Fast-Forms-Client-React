@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { useTransition, animated } from 'react-spring'
+import { useTransition, animated, config } from 'react-spring'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import './scss/main.scss'
@@ -17,34 +17,10 @@ import CreatePoll from './pages/CreatePoll'
 import AnswerPoll from './pages/AnswerPoll'
 import Search from './pages/Search'
 import Stats from './pages/Stats'
-function App() {
-  const { pathname } = useLocation()
-  let headerColor = ''
 
-  switch (pathname.split('/')[1]) {
-    case 'signin':
-    case 'signup':
-    case 'profile':
-    case 'verify':
-    case 'about':
-    case 'dashboard':
-    case 'changepass':
-    case 'search':
-      headerColor = 'black'
-      break
-    case 'poll':
-    case 'answer':
-      headerColor = 'violet'
-      break
-    default:
-      headerColor = 'white'
-  }
-  // const transitions = useTransition(item, {
-  //   from: { x: 100, y: -10, opacity: 0 },
-  //   enter: { x: 0, y: 0, opacity: 1 },
-  //   leave: { x: -100, y: -10, opacity: 0 },
-  //   exitBeforeEnter: true,
-  // })
+function App() {
+  const location = useLocation()
+
   const [loggedin, setLoggedin] = useState(false)
   useEffect(() => {
     let loggedin = localStorage.getItem('loggedin')
@@ -62,18 +38,46 @@ function App() {
         setLoggedin(false)
       }
     })()
-  }, [setLoggedin, loggedin])
+  }, [setLoggedin])
+  // const transitions = useTransition(location, {
+  //   from: { opacity: 0 },
+  //   enter: { opacity: 1 },
+  //   leave: { opacity: 0 },
+  //   config: {
+  //     delay: 0,
+  //   },
+  //   exitBeforeEnter: true,
+  // })
+  let headerColor = ''
+  switch (location?.pathname.split('/')[1]) {
+    case 'signin':
+    case 'signup':
+    case 'profile':
+    case 'verify':
+    case 'about':
+    case 'dashboard':
+    case 'changepass':
+    case 'search':
+      headerColor = 'black'
+      break
+    case 'poll':
+    case 'answer':
+      headerColor = 'violet'
+      break
+    default:
+      headerColor = 'white'
+  }
+
   return (
     <div className="App">
-      {/* {transitions((style, item) => {
-        console.log(style, item)
-        return <animated.div style={style}></animated.div>
-      })} */}
       <Header
         loggedin={loggedin}
         setLoggedin={setLoggedin}
         headerColor={headerColor}
       />
+      {/* {transitions((style, item) => {(
+      return
+       <animated.div style={style}>  */}
       <Routes>
         <Route path="/" exact element={<Home loggedin={loggedin} />} />
         <Route
@@ -98,6 +102,7 @@ function App() {
         <Route path="/changepass" exact element={<ChangePassword />} />
         <Route path="/verify/:token" element={<Verify toVerify={true} />} />
       </Routes>
+      {/* </animated.div> */}){/* })} */}
     </div>
   )
 }
