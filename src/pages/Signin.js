@@ -31,7 +31,7 @@ function Signin({ setLoggedin }) {
       navigator('/dashboard')
     } else if (data.status === 400) {
       navigator('/verify')
-    } else if (data.status === 401) {
+    } else if (data.status === 401 || data.status === 500) {
       if (flashMsg.content === data.message)
         setFlashMsg({ color: '', content: '' })
       setFlashMsg({ color: 'red', content: data.message })

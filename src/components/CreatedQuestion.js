@@ -1,4 +1,5 @@
 import { MdOutlineDelete } from 'react-icons/md'
+import { ImArrowDown2, ImArrowUp2 } from 'react-icons/im'
 function CreatedQuestion({ questions, setQuestions }) {
   function getAns(question) {
     let ansField
@@ -45,11 +46,19 @@ function CreatedQuestion({ questions, setQuestions }) {
     return ansField
   }
 
+  function swap(arr, x, y) {
+    let newArr = [...arr]
+    let X = newArr[x]
+    let Y = newArr[y]
+    newArr[x] = Y
+    newArr[y] = X
+    return newArr
+  }
   return (
     <div className="created">
       {questions.length > 0 ? (
         <>
-          {questions.map((question) => {
+          {questions.map((question, index) => {
             const ansField = getAns(question)
             return (
               <div key={question.id}>
@@ -63,15 +72,39 @@ function CreatedQuestion({ questions, setQuestions }) {
                     <div className="answer">{question.ans}</div>
                   )}
                 </p>
-                <button
-                  onClick={() => {
-                    setQuestions((prev) =>
-                      prev.filter((q) => q.id !== question.id)
-                    )
-                  }}
-                >
-                  <MdOutlineDelete />
-                </button>
+                <div className="buttons">
+                  {index !== 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuestions((prev) => swap(prev, index, index - 1))
+                      }}
+                    >
+                      <ImArrowUp2 />
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setQuestions((prev) =>
+                        prev.filter((q) => q.id !== question.id)
+                      )
+                    }}
+                  >
+                    <MdOutlineDelete />
+                  </button>
+                  {index !== questions.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuestions((prev) => swap(prev, index, index + 1))
+                      }}
+                    >
+                      <ImArrowDown2 />
+                    </button>
+                  )}
+                </div>
               </div>
             )
           })}

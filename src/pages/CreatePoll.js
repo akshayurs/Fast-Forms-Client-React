@@ -33,6 +33,8 @@ function CreatePoll({ view }) {
 
   const [flashMsg, setFlash] = useState({ content: '', color: '' })
   const [loading, setLoading] = useState({ text: '', state: false })
+  const [notAdded1, setNotAdded1] = useState(false)
+  const [notAdded2, setNotAdded2] = useState(false)
   const originalPoll = useRef({})
   function removeItem(array, item) {
     return array.filter((ele) => ele !== item)
@@ -75,6 +77,18 @@ function CreatePoll({ view }) {
   }, [])
   async function handleSubmit(e) {
     e.preventDefault()
+    if (notAdded1 || notAdded2) {
+      if (
+        !window.confirm(
+          'Still some questions are not added. Do You still want to submit?'
+        )
+      ) {
+        return
+      }
+    }
+    if (questions.length === 0) {
+      return setFlash({ content: 'Add Questions', color: 'red' })
+    }
     const poll = {
       title,
       des,
@@ -162,7 +176,12 @@ function CreatePoll({ view }) {
         </div>
         <div className="container">
           <div className="field">
-            <div className="title">Public Poll</div>
+            <div>
+              <div className="title">Public Poll</div>
+              <div className="info">
+                poll will be listed on public polls and anyone can answer
+              </div>
+            </div>
             <input
               type="checkbox"
               checked={publicPoll}
@@ -172,7 +191,12 @@ function CreatePoll({ view }) {
           {!publicPoll && (
             <>
               <div className="field">
-                <div className="title">Require authentication to answer</div>
+                <div>
+                  <div className="title">Require authentication to answer</div>
+                  <div className="info">
+                    Only added users can view and answer the poll
+                  </div>
+                </div>
                 <input
                   type="checkbox"
                   checked={authReq}
@@ -182,7 +206,12 @@ function CreatePoll({ view }) {
               {authReq && (
                 <>
                   <div className="field">
-                    <div className="title">Send Email about poll</div>
+                    <div>
+                      <div className="title">Send Email about poll</div>
+                      <div className="info">
+                        Invite link will be sent to emails
+                      </div>
+                    </div>
                     <input
                       type="checkbox"
                       checked={sendEmails}
@@ -250,7 +279,13 @@ function CreatePoll({ view }) {
             />
           </div>
           <div className="field">
-            <div className="title">Question editable by you</div>
+            <div>
+              <div className="title">Question editable by you</div>
+              <div className="info">
+                if not poll cannot be modified in future
+              </div>
+            </div>
+
             <input
               type="checkbox"
               checked={queEditable}
@@ -258,7 +293,12 @@ function CreatePoll({ view }) {
             />
           </div>
           <div className="field">
-            <div className="title">Answer editable by users</div>
+            <div>
+              <div className="title">Answer editable by users</div>
+              <div className="info">
+                Allow users to modify and delete their answer
+              </div>
+            </div>
             <input
               type="checkbox"
               checked={ansEditable}
@@ -274,8 +314,13 @@ function CreatePoll({ view }) {
             />
           </div>
           <div className="field">
-            <div className="title">
-              Show Poll Statistics to user after answering
+            <div>
+              <div className="title">
+                Show Poll Statistics to user after answering
+              </div>
+              <div className="info">
+                show the number of votes or same text answers
+              </div>
             </div>
             <input
               type="checkbox"
@@ -305,7 +350,13 @@ function CreatePoll({ view }) {
           </div>
         </div>
         <div className="container">
-          <div className="title">Required fields before answering</div>
+          <div>
+            <div className="title">Required fields before start answering</div>
+            <div className="info">
+              These questions will not be visible in poll Statistics for other
+              users if it is enabled
+            </div>
+          </div>
           <div className="polls">
             <CreatedQuestion
               removeItem={removeItem}
@@ -316,6 +367,7 @@ function CreatePoll({ view }) {
           <CreateQuestion
             removeItem={removeItem}
             setQuestions={setReqFieldsToAns}
+            setNotAdded={setNotAdded1}
           />
         </div>
         <div className="container">
@@ -331,6 +383,8 @@ function CreatePoll({ view }) {
             removeItem={removeItem}
             setQuestions={setQuestions}
             askAnswer={true}
+            setNotAdded={setNotAdded2}
+            setFlash={setFlash}
           />
         </div>
         <input type="submit" value="CREATE" />

@@ -46,6 +46,7 @@ function AllPolls({ page }) {
             poll={poll}
             created={page === 'created'}
             answer={page === 'answered'}
+            public={page === 'public'}
             index={index}
           />
         )

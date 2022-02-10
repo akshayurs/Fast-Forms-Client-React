@@ -8,6 +8,7 @@ import Flash from '../components/Flash'
 import Loading from '../helpers/Loading'
 import { toExactTime } from '../helpers/DateConversion'
 import { useSpring, animated } from 'react-spring'
+import { AiOutlineEye } from 'react-icons/ai'
 function PollItem({ poll, created, answer, index }) {
   const [flashMsg, setFlash] = useState({ content: '', color: '' })
   const [loading, setLoading] = useState({ text: '', state: false })
@@ -81,14 +82,14 @@ function PollItem({ poll, created, answer, index }) {
         )}
         {!created && (
           <div className="view">
-            <Link to={`/answer/${answer ? poll.pollId._id : poll._id}`}>
-              Open
+            <Link to={`/answer/${answer ? poll?.pollId?._id : poll._id}`}>
+              <AiOutlineEye /> Open
             </Link>
           </div>
         )}
-        {answer && poll.pollId.showStats && (
+        {!created && (poll?.showStats || poll?.pollId?.showStats) && (
           <div className="show">
-            <Link to={`/stats/${poll.pollId._id}`}>
+            <Link to={`/stats/${poll.pollId?._id || poll._id}`}>
               <IoMdStats /> View
             </Link>
           </div>
@@ -96,11 +97,13 @@ function PollItem({ poll, created, answer, index }) {
 
         {created && (
           <>
-            <div className="edit">
-              <Link to={`/poll/${poll._id}`}>
-                <FiEdit2 /> Edit
-              </Link>
-            </div>
+            {poll.queEditable && (
+              <div className="edit">
+                <Link to={`/poll/${poll._id}`}>
+                  <FiEdit2 /> Edit
+                </Link>
+              </div>
+            )}
             <div
               className="delete"
               onClick={async () => {

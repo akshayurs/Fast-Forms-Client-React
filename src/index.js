@@ -17,7 +17,7 @@ import CreatePoll from './pages/CreatePoll'
 import AnswerPoll from './pages/AnswerPoll'
 import Search from './pages/Search'
 import Stats from './pages/Stats'
-
+import GetUserName from './components/GetUserName'
 function App() {
   const location = useLocation()
 
@@ -75,17 +75,24 @@ function App() {
         setLoggedin={setLoggedin}
         headerColor={headerColor}
       />
-      {/* {transitions((style, item) => {(
-      return
-       <animated.div style={style}>  */}
+
       <Routes>
-        <Route path="/" exact element={<Home loggedin={loggedin} />} />
+        <Route
+          path="/"
+          exact
+          element={<Home setLoggedin={setLoggedin} loggedin={loggedin} />}
+        />
         <Route
           path="/signin"
           exact
           element={<Signin setLoggedin={setLoggedin} />}
         />
         <Route path="/signup" exact element={<Signup />} />
+        <Route
+          path="/getusername/:token"
+          exact
+          element={<GetUserName setLoggedin={setLoggedin} />}
+        />
         <Route path="/verify" exact element={<Verify />} />
         <Route path="/profile" exact element={<Profile />} />
         <Route path="/about" exact element={<About />} />
@@ -102,7 +109,6 @@ function App() {
         <Route path="/changepass" exact element={<ChangePassword />} />
         <Route path="/verify/:token" element={<Verify toVerify={true} />} />
       </Routes>
-      {/* </animated.div> */}){/* })} */}
     </div>
   )
 }

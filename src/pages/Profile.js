@@ -13,6 +13,7 @@ function Profile() {
   const [nameVal, setNameVal] = useState(true)
   const [email, setEmail] = useState('')
   const [emailVal, setEmailVal] = useState(true)
+  const [isGoogleUser, setIsGoogleUser] = useState(false)
   const [loading, setLoading] = useState({ state: false, text: '' })
   const [flashMsg, setFlashMsg] = useState({ content: '', color: '' })
   const originalData = useRef({})
@@ -51,6 +52,7 @@ function Profile() {
         setName(data.user.name)
         setUsername(data.user.username)
         setEmail(data.user.email)
+        setIsGoogleUser(data.user.isGoogleUser)
       } else {
         setFlashMsg({ color: 'red', content: data.message })
         setTimeout(() => {
@@ -137,6 +139,7 @@ function Profile() {
           <input
             type="email"
             value={email}
+            disabled={isGoogleUser}
             onBlur={async (e) => {
               const regEx =
                 /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -160,9 +163,11 @@ function Profile() {
             required
           />
         </div>
-        <Link className="change-pass" to="/changepass">
-          Change Password
-        </Link>
+        {!isGoogleUser && (
+          <Link className="change-pass" to="/changepass">
+            Change Password
+          </Link>
+        )}
         <button
           type="submit"
           disabled={

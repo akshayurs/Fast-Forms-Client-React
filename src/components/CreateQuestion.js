@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
-import Flash from '../components/Flash'
-function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
+
+function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , setFlash}) {
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
   const [fieldType, setFieldType] = useState('text')
@@ -10,7 +10,6 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
   const [ans, setAns] = useState('')
   const [id, setId] = useState(0)
   const [optionTemp, setOptionTemp] = useState('')
-  const [flashMsg, setFlash] = useState({ content: '', color: '' })
   useEffect(() => {
     if (
       fieldType === 'text' ||
@@ -25,7 +24,7 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
   }, [fieldType])
   return (
     <div className="new">
-      <Flash color={flashMsg.color}>{flashMsg.content}</Flash>
+
       <div className="field">
         <div className="title main">Add New Question</div>
       </div>
@@ -33,9 +32,10 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
         <input
           type="text"
           value={title}
-          placeholder="Title"
+          placeholder="Title*"
           onChange={(e) => {
-            setTitle(e.target.value)
+            setNotAdded(true)
+            setTitle(e.target.value.trim())
           }}
         />
       </div>
@@ -44,7 +44,8 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
           placeholder="Description"
           value={des}
           onChange={(e) => {
-            setDes(e.target.value)
+            setNotAdded(true)
+            setDes(e.target.value.trim())
           }}
         />
       </div>
@@ -82,6 +83,7 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
           <button
             type="button"
             onClick={() => {
+              setNotAdded(true)
               const set = new Set(options)
               set.add(optionTemp.trim())
               setOptions((prev) => Array.from(set))
@@ -152,6 +154,7 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer }) {
             fieldType,
             ans,
           }
+          setNotAdded(false)
           setId((prev) => prev + 1)
           setTitle('')
           setDes('')
