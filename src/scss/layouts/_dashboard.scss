@@ -1,3 +1,4 @@
+@import '../abstracts/helpers';
 .dashboard-screen {
   .top {
     padding-top: 1rem;
@@ -20,6 +21,11 @@
     display: flex;
     flex-wrap: wrap;
   }
+  .loadmore {
+    margin-top: 1rem;
+    flex-basis: 100%;
+    @extend %flex-center;
+  }
   .create-poll,
   .search-poll {
     flex-basis: 100vw;
@@ -36,6 +42,7 @@
   }
   .empty {
     height: 100%;
+    width: 100%;
     margin-top: 15rem;
     padding: 1rem;
     color: #222831;

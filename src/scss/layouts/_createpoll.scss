@@ -1,6 +1,10 @@
 @import '../abstracts/helpers';
 .createpoll-screen {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1080' height='1920' preserveAspectRatio='none' viewBox='0 0 1080 1920'%3e%3cg clip-path='url(%26quot%3b%23SvgjsClipPath1886%26quot%3b)' fill='none'%3e%3crect width='1080' height='1920' x='0' y='0' fill='%2332325d'%3e%3c/rect%3e%3ccircle r='31.545' cx='26.54' cy='1741.23' fill='url(%23SvgjsLinearGradient1887)'%3e%3c/circle%3e%3ccircle r='36.67' cx='326.7' cy='579.63' fill='%2343468b'%3e%3c/circle%3e%3ccircle r='60.39' cx='297.78' cy='1255.76' fill='url(%23SvgjsLinearGradient1888)'%3e%3c/circle%3e%3ccircle r='93.56' cx='544.53' cy='196.87' fill='url(%23SvgjsLinearGradient1889)'%3e%3c/circle%3e%3ccircle r='76.05' cx='890.38' cy='403.96' fill='url(%23SvgjsLinearGradient1890)'%3e%3c/circle%3e%3ccircle r='93.265' cx='317.43' cy='1036.01' fill='url(%23SvgjsLinearGradient1891)'%3e%3c/circle%3e%3ccircle r='107.59' cx='131.77' cy='326.99' fill='url(%23SvgjsLinearGradient1892)'%3e%3c/circle%3e%3ccircle r='74.805' cx='686.44' cy='40.74' fill='url(%23SvgjsLinearGradient1893)'%3e%3c/circle%3e%3ccircle r='29.93' cx='1008.02' cy='1340.46' fill='url(%23SvgjsLinearGradient1894)'%3e%3c/circle%3e%3ccircle r='90.655' cx='728.83' cy='813.79' fill='url(%23SvgjsLinearGradient1895)'%3e%3c/circle%3e%3ccircle r='56.105' cx='1013.24' cy='662.52' fill='url(%23SvgjsLinearGradient1896)'%3e%3c/circle%3e%3ccircle r='53.345' cx='673.65' cy='1612.13' fill='url(%23SvgjsLinearGradient1897)'%3e%3c/circle%3e%3c/g%3e%3cdefs%3e%3cclipPath id='SvgjsClipPath1886'%3e%3crect width='1080' height='1920' x='0' y='0'%3e%3c/rect%3e%3c/clipPath%3e%3clinearGradient x1='-36.550000000000004' y1='1741.23' x2='89.63' y2='1741.23' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1887'%3e%3cstop stop-color='%2384b6e0' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%23464a8f' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='176.99999999999997' y1='1255.76' x2='418.55999999999995' y2='1255.76' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1888'%3e%3cstop stop-color='%23e298de' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%23484687' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='357.40999999999997' y1='196.87' x2='731.65' y2='196.87' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1889'%3e%3cstop stop-color='%23ab3c51' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%234f4484' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='738.28' y1='403.96' x2='1042.48' y2='403.96' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1890'%3e%3cstop stop-color='%2384b6e0' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%23464a8f' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='130.9' y1='1036.01' x2='503.96000000000004' y2='1036.01' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1891'%3e%3cstop stop-color='%23e298de' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%23484687' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='-83.41' y1='326.99' x2='346.95000000000005' y2='326.99' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1892'%3e%3cstop stop-color='%23f29b7c' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%237e6286' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='536.83' y1='40.74000000000001' x2='836.0500000000001' y2='40.74000000000001' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1893'%3e%3cstop stop-color='%23ab3c51' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%234f4484' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='948.16' y1='1340.46' x2='1067.8799999999999' y2='1340.46' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1894'%3e%3cstop stop-color='%23f29b7c' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%237e6286' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='547.52' y1='813.79' x2='910.14' y2='813.79' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1895'%3e%3cstop stop-color='%23ab3c51' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%234f4484' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='901.03' y1='662.52' x2='1125.45' y2='662.52' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1896'%3e%3cstop stop-color='%23e298de' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%23484687' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3clinearGradient x1='566.96' y1='1612.13' x2='780.34' y2='1612.13' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1897'%3e%3cstop stop-color='%23f29b7c' offset='0.1'%3e%3c/stop%3e%3cstop stop-color='%237e6286' offset='0.9'%3e%3c/stop%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e");
+  .isRequired {
+    color: red;
+    font-size: 1.5rem;
+  }
   & > form {
     & > .title {
       color: white;
@@ -22,16 +26,16 @@
     }
 
     .container {
-      padding: 1.5rem 3rem;
+      padding: 1.5rem;
       border-radius: 2rem;
       backdrop-filter: blur(5px);
-      background: rgba(255, 255, 255, 0.356);
+      background: rgba(255, 255, 255, 0.656);
       margin: 1rem;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 
       & > div {
-        text-align: center;
+        // text-align: center;
         padding: 1rem 0;
 
         .info {
@@ -109,7 +113,7 @@
         }
         .info {
           font-size: 1.3rem;
-          font-weight: 300;
+          font-weight: 400;
         }
         button {
           background-color: #d4edda;
@@ -149,7 +153,7 @@
         background: rgba(255, 255, 255, 0.295);
         p {
           flex: 1;
-          text-align: center;
+          // text-align: center;
           padding: 0 1rem;
           background: rgba(248, 248, 248, 0.507);
         }

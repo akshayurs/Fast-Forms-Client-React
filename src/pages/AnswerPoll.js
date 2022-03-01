@@ -87,7 +87,13 @@ function AnswerPoll() {
         setAnsEditable(data.poll.ansEditable)
         if (data.poll.questions) {
           setQuestions(data.poll.questions)
-          setReqFieldsToAns(data.poll.reqFieldsToAns)
+          if (data.poll.shuffle) {
+            setReqFieldsToAns(
+              data.poll.questions.sort((a, b) => 0.5 - Math.random())
+            )
+          } else {
+            setReqFieldsToAns(data.poll.reqFieldsToAns)
+          }
         }
       }
     })()

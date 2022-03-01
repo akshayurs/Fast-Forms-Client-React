@@ -1,6 +1,6 @@
 import LoadingScreen from 'react-loading-screen'
 function Loading({ text, loading }) {
-  return (
+  return loading ? (
     <div className="loading-popup">
       <LoadingScreen
         loading={loading}
@@ -10,6 +10,8 @@ function Loading({ text, loading }) {
         text={text || ''}
       ></LoadingScreen>
     </div>
+  ) : (
+    ''
   )
 }
 

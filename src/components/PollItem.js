@@ -9,7 +9,7 @@ import Loading from '../helpers/Loading'
 import { toExactTime } from '../helpers/DateConversion'
 import { useSpring, animated } from 'react-spring'
 import { AiOutlineEye } from 'react-icons/ai'
-function PollItem({ poll, created, answer, index }) {
+function PollItem({ poll, created, answer, index, setPolls }) {
   const [flashMsg, setFlash] = useState({ content: '', color: '' })
   const [loading, setLoading] = useState({ text: '', state: false })
   return (
@@ -59,22 +59,28 @@ function PollItem({ poll, created, answer, index }) {
           <div
             className="delete"
             onClick={async () => {
-              if (window.confirm(`Delete ${poll.title}`)) {
-                setLoading({ text: 'Deleting', state: true })
-                const { data } = await fetchData(
-                  `${process.env.REACT_APP_SERVER_URL}\\answer\\${poll._id}`,
-                  'DELETE'
-                )
-                setLoading({ text: '', state: false })
-                setFlash({
-                  content: data.message,
-                  color: data.status === 200 ? 'green' : 'red',
+              if (!window.confirm(`Delete ${poll.title}`)) return
+              setLoading({ text: 'Deleting', state: true })
+              const { data } = await fetchData(
+                `${process.env.REACT_APP_SERVER_URL}\\answer\\${poll._id}`,
+                'DELETE'
+              )
+              setLoading({ text: '', state: false })
+              setFlash({
+                content: data.message,
+                color: data.status === 200 ? 'green' : 'red',
+              })
+              if (data.status === 200)
+                setPolls((prev) => {
+                  const clone = { ...prev }
+                  const newPolls = {
+                    ...clone,
+                    poll3: prev['poll3'].filter(
+                      (item) => item._id !== poll._id
+                    ),
+                  }
+                  return newPolls
                 })
-                if (data.status === 200)
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 1000)
-              }
             }}
           >
             <MdDelete /> Delete
@@ -118,10 +124,21 @@ function PollItem({ poll, created, answer, index }) {
                     content: data.message,
                     color: data.status === 200 ? 'green' : 'red',
                   })
-                  if (data.status === 200)
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 1000)
+                  if (data.status === 200) {
+                    setPolls((prev) => {
+                      const clone = { ...prev }
+                      const newPolls = {
+                        ...clone,
+                        poll2: prev[`poll2`].filter(
+                          (item) => item._id !== poll._id
+                        ),
+                      }
+                      return newPolls
+                    })
+                  }
+                  // setTimeout(() => {
+                  //   window.location.reload()
+                  // }, 1000)
                 }
               }}
             >

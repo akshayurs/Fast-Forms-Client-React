@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { MdOutlineDelete } from 'react-icons/md'
-
-function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , setFlash}) {
+function CreateQuestion({
+  setQuestions,
+  removeItem,
+  askAnswer,
+  setNotAdded,
+  setFlash,
+}) {
   const [title, setTitle] = useState('')
   const [des, setDes] = useState('')
   const [fieldType, setFieldType] = useState('text')
   const [options, setOptions] = useState([])
   const [ans, setAns] = useState('')
   const [id, setId] = useState(0)
+  const [isRequired, setIsRequired] = useState(false)
   const [optionTemp, setOptionTemp] = useState('')
   useEffect(() => {
     if (
@@ -24,7 +30,6 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , set
   }, [fieldType])
   return (
     <div className="new">
-
       <div className="field">
         <div className="title main">Add New Question</div>
       </div>
@@ -60,8 +65,8 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , set
           <option value="textarea">Text (multi line)</option>
           <option value="number">Number</option>
           <option value="radio">Radio button</option>
-          <option value="checkbox">Checkbox</option>
-          <option value="dropdown">Dropdown menu</option>
+          <option value="checkbox">Checkboxes</option>
+          <option value="dropdown">Drop-down menu</option>
           <option value="date">Date</option>
           <option value="datetime-local">Date and Time</option>
         </select>
@@ -114,14 +119,24 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , set
         </div>
       )}
       {askAnswer && (
-        <div className="field">
-          <input
-            type="text"
-            placeholder="Answer for the question if exist"
-            value={ans}
-            onChange={(e) => setAns(e.target.value)}
-          />
-        </div>
+        <>
+          <div className="field">
+            <div className="title">Required</div>
+            <input
+              type="checkbox"
+              checked={isRequired}
+              onChange={(e) => setIsRequired((prev) => !prev)}
+            />
+          </div>
+          <div className="field">
+            <input
+              type="text"
+              placeholder="Answer for the question if exist"
+              value={ans}
+              onChange={(e) => setAns(e.target.value)}
+            />
+          </div>
+        </>
       )}
       <button
         type="button"
@@ -153,6 +168,7 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , set
             options,
             fieldType,
             ans,
+            isRequired,
           }
           setNotAdded(false)
           setId((prev) => prev + 1)
@@ -162,6 +178,7 @@ function CreateQuestion({ setQuestions, removeItem, askAnswer, setNotAdded , set
           setOptions([])
           setOptionTemp('')
           setAns('')
+          setIsRequired(false)
           setQuestions((prev) => [...prev, newQuestion])
         }}
       >

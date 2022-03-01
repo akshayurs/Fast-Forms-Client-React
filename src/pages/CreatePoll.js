@@ -17,10 +17,11 @@ function CreatePoll({ view }) {
   const [sendEmails, setSendEmails] = useState(true)
   const [emails, setEmails] = useState([])
   const [askFeedback, setAskFeedback] = useState(false)
-  const [queEditable, setQueEditable] = useState(false)
+  const [queEditable, setQueEditable] = useState(true)
   const [ansEditable, setAnsEditable] = useState(false)
   const [publicPoll, setPublicPoll] = useState(false)
   const [showStats, setShowStats] = useState(true)
+  const [shuffle, setShuffle] = useState(false)
   const [startTime, setStartTime] = useState(
     new Date().toLocaleString().slice(0, 16)
   )
@@ -68,6 +69,7 @@ function CreatePoll({ view }) {
         setAnsEditable(data.poll.ansEditable)
         setPublicPoll(data.poll.publicPoll)
         setShowStats(data.poll.showStats)
+        setShuffle(data.poll.shuffle)
         setStartTime(toCorrectUTC(data.poll.startTime))
         setEndTime(toCorrectUTC(data.poll.endTime))
         setViewAns(data.poll.viewAns)
@@ -100,6 +102,7 @@ function CreatePoll({ view }) {
       queEditable,
       ansEditable,
       showStats,
+      shuffle,
       startTime: new Date(startTime).toJSON(),
       endTime: new Date(endTime).toJSON(),
       viewAns,
@@ -326,6 +329,19 @@ function CreatePoll({ view }) {
               type="checkbox"
               checked={showStats}
               onChange={(e) => setShowStats((prev) => !prev)}
+            />
+          </div>
+          <div className="field">
+            <div>
+              <div className="title">Shuffle Questions</div>
+              <div className="info">
+                order of questions will be shuffled for users
+              </div>
+            </div>
+            <input
+              type="checkbox"
+              checked={shuffle}
+              onChange={(e) => setShuffle((prev) => !prev)}
             />
           </div>
         </div>

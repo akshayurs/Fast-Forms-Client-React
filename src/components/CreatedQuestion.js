@@ -63,7 +63,12 @@ function CreatedQuestion({ questions, setQuestions }) {
             return (
               <div key={question.id}>
                 <p>
-                  <div className="title">{question.title}</div>
+                  <div className="title">
+                    {question.title}
+                    {question.isRequired && (
+                      <span className="isRequired">*</span>
+                    )}
+                  </div>
                   {question.des?.length > 0 && (
                     <div className="des">{question.des}</div>
                   )}
